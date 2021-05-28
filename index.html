@@ -61,6 +61,11 @@
       token: "0f7ab63566f24dafa377ae986928ce2d"
       // for more configuration options, see https://docs.trackjs.com
     });
+  </script>
+                          
+  
+  <script>
+    TrackJS.track('Testing TrackJS!');
 
     class InputError extends Error {
       constructor(message) {
@@ -101,16 +106,6 @@
     // TODO - Make buttons functional
     let errorBtns = Array.from(document.querySelectorAll('#error-btns > button'));
     
-    // for (index in errorBtns) {
-    //   console.log(index);
-    //   errorBtns[index].addEventListener('click', () => {
-    //     let firstNum = document.querySelector('#first-num').value;
-    //     let secondNum = document.querySelector('#second-num').value;
-    //     let operator = document.querySelector('#operator').value;
-    //     console.log(firstNum);
-    //   });
-    // }
-
     errorBtns[0].addEventListener('click', () => {
       let firstNum = document.querySelector('#first-num').value;
       let secondNum = document.querySelector('#second-num').value;
