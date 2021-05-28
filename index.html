@@ -55,18 +55,154 @@
     <button>Trigger a Global Error</button>
   </section>
 
+  <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
   <script>
+    window.TrackJS && TrackJS.install({ 
+      token: "0f7ab63566f24dafa377ae986928ce2d"
+      // for more configuration options, see https://docs.trackjs.com
+    });
+
+    class InputError extends Error {
+      constructor(message) {
+        super(message);
+        this.name = "InputError";
+      }
+    }
+
+    // uncaught errors
+    // redefine the error to be somethjing we want to output
+    // output something to console and attach 3rd party thing
+
+    window.onerror = () => {
+      console.error("Global error triggered");
+
+      // Attach third party error tracker
+      TrackJS.track('Testing TrackJS!');
+    };
+    
     let calculateBtn = document.querySelector('#calculate');
     calculateBtn.addEventListener('click', () => {
       let output = document.querySelector('output');
       let firstNum = document.querySelector('#first-num').value;
       let secondNum = document.querySelector('#second-num').value;
       let operator = document.querySelector('#operator').value;
-      output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
+      console.trace();
+      try {
+        output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
+      } catch (error) {
+        throw new InputError(`Only numeric input allowed: ${error}`);
+      } finally {
+        console.log('Calculation complete');
+      }
+
     });
 
-    let errorBtns = Array.from(document.querySelectorAll('#error-btns > button'));
+
     // TODO - Make buttons functional
+    let errorBtns = Array.from(document.querySelectorAll('#error-btns > button'));
+    
+    // for (index in errorBtns) {
+    //   console.log(index);
+    //   errorBtns[index].addEventListener('click', () => {
+    //     let firstNum = document.querySelector('#first-num').value;
+    //     let secondNum = document.querySelector('#second-num').value;
+    //     let operator = document.querySelector('#operator').value;
+    //     console.log(firstNum);
+    //   });
+    // }
+
+    errorBtns[0].addEventListener('click', () => {
+      let firstNum = document.querySelector('#first-num').value;
+      let secondNum = document.querySelector('#second-num').value;
+      let operator = document.querySelector('#operator').value;
+
+      console.log(`${firstNum} ${operator} ${secondNum}`);
+    });
+
+    errorBtns[1].addEventListener('click', (event) => {
+      let firstNum = document.querySelector('#first-num').value;
+      let secondNum = document.querySelector('#second-num').value;
+      let operator = document.querySelector('#operator').value;
+      
+      console.error(`${firstNum} ${operator} ${secondNum}`);
+    });
+
+    errorBtns[2].addEventListener('click', (event) => {
+      let firstNum = document.querySelector('#first-num').value;
+      let secondNum = document.querySelector('#second-num').value;
+      let operator = document.querySelector('#operator').value;
+      
+      console.dir(event);
+    });
+    
+    errorBtns[3].addEventListener('click', (event) => {
+      let firstNum = document.querySelector('#first-num').value;
+      let secondNum = document.querySelector('#second-num').value;
+      let operator = document.querySelector('#operator').value;
+      
+      console.dirxml(event);
+    });
+    
+    errorBtns[4].addEventListener('click', (event) => {
+      let firstNum = document.querySelector('#first-num').value;
+      let secondNum = document.querySelector('#second-num').value;
+      let operator = document.querySelector('#operator').value;
+      
+      console.group(event);
+    });
+    
+    errorBtns[5].addEventListener('click', (event) => {
+      let firstNum = document.querySelector('#first-num').value;
+      let secondNum = document.querySelector('#second-num').value;
+      let operator = document.querySelector('#operator').value;
+      
+      console.groupEnd(event);
+    });
+    
+    errorBtns[6].addEventListener('click', (event) => {
+      let firstNum = document.querySelector('#first-num').value;
+      let secondNum = document.querySelector('#second-num').value;
+      let operator = document.querySelector('#operator').value;
+
+      console.table(event);
+    });
+    
+    errorBtns[7].addEventListener('click', (event) => {
+      let firstNum = document.querySelector('#first-num').value;
+      let secondNum = document.querySelector('#second-num').value;
+      let operator = document.querySelector('#operator').value;
+
+      console.time(event);
+    });
+
+    errorBtns[8].addEventListener('click', (event) => {
+      let firstNum = document.querySelector('#first-num').value;
+      let secondNum = document.querySelector('#second-num').value;
+      let operator = document.querySelector('#operator').value;
+
+      console.timeEnd(event);
+    });
+    
+    errorBtns[9].addEventListener('click', () => {
+      // let firstNum = document.querySelector('#first-num').value;
+      // let secondNum = document.querySelector('#second-num').value;
+      // let operator = document.querySelector('#operator').value;
+      
+      function f1 () {
+        function f2 () {
+          function f3 () {
+            console.trace();
+          }
+          f3();
+        }
+        f2();
+      }
+      f1();
+    });
+    
+    errorBtns[10].addEventListener('click', () => {
+      throw new Error("Global error");
+    });
   </script>
 </body>
 </html>
